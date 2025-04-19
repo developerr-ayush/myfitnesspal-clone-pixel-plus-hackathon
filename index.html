@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFitnessPal - Nutrition tracking for real life</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mfp-blue': '#0066EE',
+                        'mfp-dark-blue': '#0052CC',
+                        'mfp-light-blue': '#3385FF',
+                        'mfp-dark': '#1A1A2E',
+                    },
+                    backgroundImage: {
+                        'blue-gradient': 'linear-gradient(180deg, #0066EE 0%, #3385FF 100%)',
+                        'blue-gradient-reverse': 'linear-gradient(180deg, #3385FF 0%, #0066EE 100%)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        .shadow-blue {
+            box-shadow: 0 4px 14px rgba(0, 102, 238, 0.2);
+        }
+        .hover-scale:hover {
+            transform: scale(1.03);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 overflow-x-hidden">
+    <!-- Header -->
+    <header class="bg-mfp-blue text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold">myfitnesspal</div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#" class="hover:text-blue-200 transition-all">Features</a>
+                <a href="#" class="hover:text-blue-200 transition-all">Premium</a>
+                <a href="#" class="hover:text-blue-200 transition-all">Nutrition</a>
+                <a href="#" class="hover:text-blue-200 transition-all">Apps</a>
+                <a href="#" class="hover:text-blue-200 transition-all">Community</a>
+                <a href="#" class="hover:text-blue-200 transition-all">Blog</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="md:inline-block hidden bg-white text-mfp-blue font-semibold px-4 py-1.5 rounded-full hover:bg-gray-100 transition-all text-sm">
+                    Log In
+                </button>
+                <button class="rounded-full bg-white p-2 hover:bg-gray-100 transition-all">
+                    <i class="fas fa-user text-mfp-blue"></i>
+                </button>
+                <button class="md:hidden text-white">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notification Bar -->
+    <div class="bg-yellow-50 py-3 px-4 text-center text-sm border-b border-yellow-100">
+        Our <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a> have recently been updated
+    </div>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-gradient text-white py-16 md:py-24 overflow-hidden">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 text-center md:text-left mb-10 md:mb-0 animate-slide-up">
+                <p class="text-sm mb-2 bg-white/20 inline-block px-3 py-1 rounded-full">#1 nutrition tracking app</p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                    Nutrition tracking<br>
+                    for <span class="bg-white text-mfp-blue px-2 rounded-sm">real life</span>
+                </h1>
+                <p class="mb-8 text-lg opacity-90">Make progress with the all-in-one food, exercise, and calorie tracker.</p>
+                <a href="#" class="inline-block bg-white text-mfp-blue font-semibold px-8 py-3 rounded-full hover:bg-gray-100 transition-all shadow-blue hover:shadow-lg">
+                    START TODAY <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            <div class="md:w-1/2 flex justify-center animate-fade-in">
+                <img src="https://picsum.photos/id/1/600/900" alt="MyFitnessPal App" class="max-w-xs md:max-w-sm rounded-3xl shadow-2xl rotate-2 hover-scale">
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW FEATURE: BMI Calculator -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-gray-50 rounded-2xl shadow-lg overflow-hidden">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2 bg-blue-gradient p-8 text-white">
+                        <h2 class="text-2xl font-bold mb-4">BMI Calculator</h2>
+                        <p class="mb-6">Calculate your Body Mass Index to get a quick assessment of your weight relative to your height.</p>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Height (cm)</label>
+                                <input type="number" id="height" placeholder="Enter your height" class="w-full px-4 py-2 rounded-lg text-gray-800">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Weight (kg)</label>
+                                <input type="number" id="weight" placeholder="Enter your weight" class="w-full px-4 py-2 rounded-lg text-gray-800">
+                            </div>
+                            <button id="calculate-bmi" class="w-full bg-white text-mfp-blue font-semibold py-3 rounded-lg hover:bg-gray-100 transition-all shadow-sm">
+                                Calculate BMI
+                            </button>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                        <h3 class="text-xl font-semibold mb-4">Your Results</h3>
+                        <div id="bmi-result" class="hidden">
+                            <div class="text-center mb-6">
+                                <div class="text-5xl font-bold text-mfp-blue mb-2" id="bmi-value">0.0</div>
+                                <div class="text-lg font-medium" id="bmi-category">-</div>
+                            </div>
+                            <div class="bg-gray-200 h-2 rounded-full mb-4">
+                                <div id="bmi-indicator" class="bg-mfp-blue h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mb-6">
+                                <span>Underweight</span>
+                                <span>Normal</span>
+                                <span>Overweight</span>
+                                <span>Obese</span>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                BMI is a useful measurement for most people over 18. However, it has limitations as it doesn't account for factors like muscle mass, bone density, and overall body composition.
+                            </p>
+                        </div>
+                        <div id="bmi-initial" class="text-center py-8">
+                            <img src="https://picsum.photos/id/1000/300/200" alt="Health" class="mx-auto rounded-lg mb-4">
+                            <p class="text-gray-500">Enter your height and weight to calculate your BMI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ratings Section -->
+    <section class="bg-gray-900 text-white py-16 text-center">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center mb-4">
+                <i class="fas fa-star text-yellow-400 mx-1 text-xl"></i>
+                <i class="fas fa-star text-yellow-400 mx-1 text-xl"></i>
+                <i class="fas fa-star text-yellow-400 mx-1 text-xl"></i>
+                <i class="fas fa-star text-yellow-400 mx-1 text-xl"></i>
+                <i class="fas fa-star text-yellow-400 mx-1 text-xl"></i>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">3.5 Million 5-Star Ratings</h2>
+            <p class="text-lg max-w-2xl mx-auto">"Good for tracking calories and macros with a huge database of food."</p>
+            <p class="mt-2 text-sm text-gray-400">- John M.</p>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">Hit your health goals in 1-2-3</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row items-center md:items-start group">
+                    <div class="text-4xl font-bold text-mfp-blue mb-4 md:mr-6 group-hover:scale-110 transition-all">1</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Track calories, macros & more</h3>
+                        <div class="rounded-xl shadow-lg overflow-hidden mb-4 hover-scale">
+                            <img src="https://picsum.photos/id/96/400/600" alt="Track calories" class="w-full h-64 object-cover">
+                        </div>
+                        <p class="text-gray-600">Log your meals and snacks with our extensive food database of over 14 million items.</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row items-center md:items-start group">
+                    <div class="text-4xl font-bold text-mfp-blue mb-4 md:mr-6 group-hover:scale-110 transition-all">2</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Follow your progress</h3>
+                        <div class="rounded-xl shadow-lg overflow-hidden mb-4 hover-scale">
+                            <img src="https://picsum.photos/id/1005/400/600" alt="Follow progress" class="w-full h-64 object-cover">
+                        </div>
+                        <p class="text-gray-600">Track your progress with detailed charts and insights to stay motivated.</p>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row items-center md:items-start group">
+                    <div class="text-4xl font-bold text-mfp-blue mb-4 md:mr-6 group-hover:scale-110 transition-all">3</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Eat better and hit your goals</h3>
+                        <div class="rounded-xl shadow-lg overflow-hidden mb-4 hover-scale">
+                            <img src="https://picsum.photos/id/292/400/600" alt="Eat better" class="w-full h-64 object-cover">
+                        </div>
+                        <p class="text-gray-600">Get personalized recommendations and adjust your diet to reach your goals faster.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sync Section -->
+    <section class="py-12 bg-gray-900 text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-2/3 mb-8 md:mb-0">
+                    <h2 class="text-2xl font-bold mb-4">Sync steps, weight, workouts & more</h2>
+                    <p>Connect with your favorite apps and devices for a seamless fitness experience</p>
+                </div>
+                <div class="md:w-1/3 grid grid-cols-3 gap-4">
+                    <div class="bg-blue-500 p-3 rounded-lg text-center transform hover:scale-105 transition-all">
+                        <i class="fas fa-heartbeat text-2xl"></i>
+                    </div>
+                    <div class="bg-green-500 p-3 rounded-lg text-center transform hover:scale-105 transition-all">
+                        <i class="fas fa-check text-2xl"></i>
+                    </div>
+                    <div class="bg-cyan-500 p-3 rounded-lg text-center transform hover:scale-105 transition-all">
+                        <i class="fas fa-running text-2xl"></i>
+                    </div>
+                    <div class="bg-purple-500 p-3 rounded-lg text-center transform hover:scale-105 transition-all">
+                        <i class="fas fa-plus text-2xl"></i>
+                    </div>
+                    <div class="bg-orange-500 p-3 rounded-lg text-center transform hover:scale-105 transition-all">
+                        <i class="fas fa-dumbbell text-2xl"></i>
+                    </div>
+                    <div class="bg-red-500 p-3 rounded-lg text-center transform hover:scale-105 transition-all">
+                        <i class="fas fa-apple-alt text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Database Section -->
+    <section class="py-16 bg-blue-gradient text-white text-center">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">If it's edible, it's in here</h2>
+            <p class="mb-8 max-w-2xl mx-auto">Track over 14 million foods in our extensive database</p>
+            <div class="flex justify-center">
+                <img src="https://picsum.photos/id/1080/600/900" alt="Food database" class="max-w-xs rounded-xl shadow-2xl hover-scale">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Nutrition tracking works, here's the proof</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Testimonial images -->
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/64/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/65/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/177/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/342/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/349/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/338/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/366/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+                <div class="aspect-square hover-scale">
+                    <img src="https://picsum.photos/id/375/300/300" alt="Testimonial" class="w-full h-full object-cover rounded-lg shadow-md">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Starting Section -->
+    <section class="py-16 bg-blue-gradient text-white">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Starting is the hard part.</h2>
+                <p class="mb-8 text-xl">We make it easy.</p>
+                <a href="#" class="inline-block bg-white text-mfp-blue font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition-all shadow-blue">
+                    Get started now
+                </a>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="https://picsum.photos/id/1025/500/800" alt="Easy to start" class="max-w-xs rounded-xl shadow-2xl hover-scale">
+            </div>
+        </div>
+    </section>
+
+    <!-- Knowledge Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Knowledge is power</h2>
+            
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center">
+                    <img src="https://picsum.photos/id/26/400/400" alt="Knowledge" class="rounded-full max-w-xs shadow-lg hover-scale">
+                </div>
+                <div class="md:w-2/3 md:pl-12">
+                    <p class="text-lg mb-6">
+                        Understanding your nutrition is the first step to reaching your goals. MyFitnessPal gives you insights about your macro and micronutrients, so you can make smart, informed choices.
+                    </p>
+                    <p class="text-lg mb-6">
+                        Our extensive database and educational resources help you learn about the foods you eat and how they affect your body and performance.
+                    </p>
+                    <a href="#" class="text-mfp-blue font-semibold hover:underline flex items-center">
+                        Learn more about nutrition tracking
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- As Seen In Section -->
+    <section class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-xl font-semibold text-center mb-8">As seen in...</h2>
+            
+            <div class="flex flex-wrap justify-center items-center gap-8">
+                <img src="https://picsum.photos/id/180/160/80" alt="CNN" class="h-8 opacity-60 hover:opacity-100 transition-all">
+                <img src="https://picsum.photos/id/181/160/80" alt="Men's Health" class="h-8 opacity-60 hover:opacity-100 transition-all">
+                <img src="https://picsum.photos/id/182/160/80" alt="Women's Health" class="h-8 opacity-60 hover:opacity-100 transition-all">
+                <img src="https://picsum.photos/id/183/160/80" alt="NY Times" class="h-8 opacity-60 hover:opacity-100 transition-all">
+                <img src="https://picsum.photos/id/184/160/80" alt="Today" class="h-8 opacity-60 hover:opacity-100 transition-all">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h2 class="text-3xl font-bold text-center mb-12">Q&A</h2>
+            
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold mb-2 flex justify-between items-center cursor-pointer faq-toggle">
+                        How do I track calories and nutrition with MyFitnessPal?
+                        <button class="text-mfp-blue">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="faq-content hidden">
+                        <p class="text-gray-600 mt-2">
+                            Simply search for the food you're eating in our extensive database, or scan a barcode to instantly log it. You can also create custom foods and recipes for items you eat regularly.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold mb-2 flex justify-between items-center cursor-pointer faq-toggle">
+                        What nutrition data can I track besides calories?
+                        <button class="text-mfp-blue">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="faq-content hidden">
+                        <p class="text-gray-600 mt-2">
+                            MyFitnessPal tracks macronutrients (carbs, protein, fat), micronutrients (vitamins and minerals), fiber, sugar, cholesterol, sodium, and more to give you a complete picture of your nutrition.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold mb-2 flex justify-between items-center cursor-pointer faq-toggle">
+                        How does MyFitnessPal work with other fitness trackers?
+                        <button class="text-mfp-blue">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="faq-content hidden">
+                        <p class="text-gray-600 mt-2">
+                            MyFitnessPal connects with over 50 apps and devices, including Fitbit, Garmin, Apple Health, and more. This allows you to automatically sync your exercise, steps, and weight data.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="border-b pb-6">
+                    <h3 class="text-lg font-semibold mb-2 flex justify-between items-center cursor-pointer faq-toggle">
+                        Can I track meals, workouts, water, or macronutrient intake?
+                        <button class="text-mfp-blue">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="faq-content hidden">
+                        <p class="text-gray-600 mt-2">
+                            Yes! MyFitnessPal allows you to track all of these metrics. You can log meals, record workouts, track water intake, and monitor your macronutrient distribution to ensure you're meeting your specific goals.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experts Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-3xl font-bold text-center mb-12">From our experts</h2>
+            
+            <!-- Expert Article 1 -->
+            <div class="mb-16 bg-gray-50 rounded-2xl overflow-hidden shadow-lg hover-scale">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/3">
+                        <img src="https://picsum.photos/id/447/600/600" alt="Expert" class="w-full h-full object-cover">
+                    </div>
+                    <div class="md:w-2/3 p-8">
+                        <h3 class="text-xl font-bold mb-4">Essential Guide to Food Logging</h3>
+                        <p class="mb-4 text-gray-600">
+                            Learn how to effectively track your nutrition with our comprehensive guide to food logging. Discover tips and tricks to make tracking easier and more accurate.
+                        </p>
+                        <a href="#" class="text-mfp-blue font-semibold hover:underline flex items-center">
+                            Read more
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Expert Article 2 -->
+            <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-lg hover-scale">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/3">
+                        <img src="https://picsum.photos/id/628/600/600" alt="Expert" class="w-full h-full object-cover">
+                    </div>
+                    <div class="md:w-2/3 p-8">
+                        <h3 class="text-xl font-bold mb-4">10 Things You Need to Know About Nutrition</h3>
+                        <p class="mb-4 text-gray-600">
+                            Understanding nutrition basics is essential for achieving your health and fitness goals. Our experts break down the most important concepts you need to know.
+                        </p>
+                        <a href="#" class="text-mfp-blue font-semibold hover:underline flex items-center">
+                            Read more
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between mb-8">
+                <div class="mb-6 md:mb-0">
+                    <div class="text-2xl font-bold mb-4">myfitnesspal</div>
+                    <a href="#" class="inline-block bg-white text-mfp-blue font-semibold px-6 py-2 rounded-full hover:bg-gray-100 transition-all mb-4 shadow-blue">
+                        START TODAY
+                    </a>
+                    <p class="text-sm text-gray-400 max-w-xs">
+                        The #1 nutrition tracking app that helps you reach your health and fitness goals.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <!-- Footer Links 1 -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Company</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="#" class="hover:text-white transition-all">About</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Careers</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Contact Us</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Press</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Footer Links 2 -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Resources</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="#" class="hover:text-white transition-all">Blog</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Community</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Support</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Recipes</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Footer Links 3 -->
+                    <div>
+                        <h4 class="font-semibold mb-4">Legal</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li><a href="#" class="hover:text-white transition-all">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Terms of Service</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">Cookie Policy</a></li>
+                            <li><a href="#" class="hover:text-white transition-all">CCPA</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-sm text-gray-500 mb-4 md:mb-0">
+                    &copy; 2025 MyFitnessPal, LLC. All rights reserved.
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-all">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-all">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-all">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-all">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-all">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for BMI Calculator -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // BMI Calculator
+            const calculateBtn = document.getElementById('calculate-bmi');
+            const heightInput = document.getElementById('height');
+            const weightInput = document.getElementById('weight');
+            const bmiValue = document.getElementById('bmi-value');
+            const bmiCategory = document.getElementById('bmi-category');
+            const bmiIndicator = document.getElementById('bmi-indicator');
+            const bmiResult = document.getElementById('bmi-result');
+            const bmiInitial = document.getElementById('bmi-initial');
+            
+            calculateBtn.addEventListener('click', function() {
+                const height = parseFloat(heightInput.value) / 100; // convert cm to m
+                const weight = parseFloat(weightInput.value);
+                
+                if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+                    alert('Please enter valid height and weight values');
+                    return;
+                }
+                
+                const bmi = weight / (height * height);
+                bmiValue.textContent = bmi.toFixed(1);
+                
+                // Set category and indicator position
+                let category = '';
+                let indicatorPosition = 0;
+                
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                    indicatorPosition = (bmi / 18.5) * 25;
+                } else if (bmi < 25) {
+                    category = 'Normal weight';
+                    indicatorPosition = 25 + ((bmi - 18.5) / 6.5) * 25;
+                } else if (bmi < 30) {
+                    category = 'Overweight';
+                    indicatorPosition = 50 + ((bmi - 25) / 5) * 25;
+                } else {
+                    category = 'Obese';
+                    indicatorPosition = 75 + Math.min(((bmi - 30) / 10) * 25, 25);
+                }
+                
+                bmiCategory.textContent = category;
+                bmiIndicator.style.width = `${Math.min(indicatorPosition, 100)}%`;
+                
+                // Show result, hide initial
+                bmiResult.classList.remove('hidden');
+                bmiInitial.classList.add('hidden');
+            });
+            
+            // FAQ Toggles
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+            
+            faqToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    content.classList.toggle('hidden');
+                    
+                    if (content.classList.contains('hidden')) {
+                        icon.classList.remove('fa-minus');
+                        icon.classList.add('fa-plus');
+                    } else {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-minus');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
