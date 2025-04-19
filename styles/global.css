@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom colors */
+  --color-mfp-blue: #0066ee;
+  --color-mfp-dark-blue: #0052cc;
+  --color-mfp-light-blue: #3385ff;
+  --color-mfp-dark: #1a1a2e;
+
+  /* Custom background gradients */
+  --background-image-blue-gradient: linear-gradient(
+    180deg,
+    #0066ee 0%,
+    #3385ff 100%
+  );
+  --background-image-blue-gradient-reverse: linear-gradient(
+    180deg,
+    #3385ff 0%,
+    #0066ee 100%
+  );
+}
+
+/* Add custom styles */
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.shadow-blue {
+  box-shadow: 0 4px 14px rgba(0, 102, 238, 0.2);
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}
+.hero-bg{
+  background-image: linear-gradient(200.00deg, #0066EE 60%, #9383FB 100%);
+}
